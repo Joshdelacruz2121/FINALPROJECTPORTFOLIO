@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"  content="width=device-width, initial-scale=1.0">
+    <title>Joshua D. Montanez | IT Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+        }
+        
+        /* ===== ANIMATIONS ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 25px 8px rgba(99, 102, 241, 0.5); }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Base animation classes */
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulseGlow 3s infinite;
+        }
+        
+        .animate-gradient {
+            background: linear-gradient(270deg, #6366f1, #a78bfa, #6366f1);
+            background-size: 200% 200%;
+            animation: gradientShift 6s ease infinite;
+        }
+        
+        /* Hidden state for scroll animation */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Stagger delays for children */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        
+        /* Nav link hover */
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #c084fc);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Skill card enhancements */
+        .skill-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 30px -10px rgba(99, 102, 241, 0.3);
+            border-color: #6366f1;
+        }
+        
+        .skill-card:hover .skill-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(99, 102, 241, 0.2);
+        }
+        
+        .skill-icon {
+            transition: all 0.4s ease;
+        }
+        
+        /* Profile image enhancement */
+        .profile-img {
+            transition: all 0.5s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.05) rotate(2deg);
+            animation: none; /* pause float on hover */
+            border-color: #a78bfa;
+        }
+        
+        /* Button hover effect */
+        .btn-glow:hover {
+            animation: pulseGlow 1.5s infinite;
+        }
+        
+        /* Contact form input focus */
+        input:focus, textarea:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+            transform: scale(1.01);
+            transition: all 0.2s;
+        }
+        
+        /* Scroll indicator animation */
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-zinc-950 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl animate-pulse-glow">JM</div>
+                <span class="font-semibold text-2xl tracking-tight">Joshua Montanez</span>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#home" class="nav-link text-zinc-300 hover:text-white">Home</a>
+                <a href="#about" class="nav-link text-zinc-300 hover:text-white">About</a>
+                <a href="#skills" class="nav-link text-zinc-300 hover:text-white">Skills</a>
+                <a href="#experience" class="nav-link text-zinc-300 hover:text-white">Experience</a>
+                <a href="#contact" class="nav-link text-zinc-300 hover:text-white">Contact</a>
+            </div>
+            
+            <button onclick="toggleMobileMenu()" 
+                    class="md:hidden w-10 h-10 flex items-center justify-center text-2xl">
+                <i id="hamburger" class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-zinc-900 border-t border-zinc-800">
+            <div class="flex flex-col px-6 py-8 gap-6 text-lg font-medium">
+                <a href="#home" onclick="toggleMobileMenu()" class="nav-link">Home</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="nav-link">About</a>
+                <a href="#skills" onclick="toggleMobileMenu()" class="nav-link">Skills</a>
+                <a href="#experience" onclick="toggleMobileMenu()" class="nav-link">Experience</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="home" class="hero-bg min-h-screen flex items-center pt-20">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Left: Photo -->
+            <div class="flex justify-center md:justify-end">
+                <img src="1000025425.jpg" 
+                     alt="Joshua D. Montanez"
+                     class="profile-img w-80 h-80 md:w-96 md:h-96 object-cover rounded-3xl border-8 border-indigo-500 shadow-2xl shadow-indigo-500/30">
+            </div>
+            
+            <!-- Right: Text -->
+            <div class="text-center md:text-left space-y-6">
+                <div class="inline-flex items-center gap-2 bg-zinc-900 border border-zinc-700 px-4 py-2 rounded-full text-sm fade-up visible"> <!-- visible by default -->
+                    <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <span class="text-emerald-400 font-medium">Available for opportunities</span>
+                </div>
+                
+                <h1 class="text-6xl md:text-7xl font-bold tracking-tighter leading-none fade-up visible">
+                    Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400 animate-gradient">Joshua D. Montanez</span>
+                </h1>
+                
+                <p class="text-2xl md:text-3xl text-zinc-400 font-medium fade-up visible stagger-1">
+                    Tech Support Specialist • Hardware Expert • IT Administrator
+                </p>
+                
+                <p class="text-lg text-zinc-400 max-w-lg mx-auto md:mx-0 fade-up visible stagger-2">
+                    Caloocan City, Philippines • Passionate in fixing tech problems fast, building reliable systems, 
+                    and delivering excellent hardware & admin support.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start pt-4 fade-up visible stagger-3">
+                    <button onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })" 
+                            class="btn-glow bg-indigo-600 hover:bg-indigo-500 transition-colors px-8 py-4 rounded-2xl font-semibold flex items-center gap-3 text-lg">
+                        <i class="fas fa-paper-plane"></i>
+                        Get In Touch
+                    </button>
+                    
+                    <!-- UPDATED DOWNLOAD CV LINK -->
+                    <a href="montanez.resume.pdf" download="Joshua_Montanez_Resume.pdf" 
+                       class="border border-zinc-700 hover:border-zinc-400 transition-colors px-8 py-4 rounded-2xl font-semibold flex items-center gap-3 text-lg hover:bg-zinc-800">
+                        <i class="fas fa-download"></i>
+                        Download CV
+                    </a>
+                </div>
+                
+                <div class="flex gap-6 justify-center md:justify-start text-4xl pt-6 fade-up visible stagger-4">
+                    <a href="#" class="text-zinc-500 hover:text-white transition-colors hover:scale-110 inline-block"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-zinc-500 hover:text-white transition-colors hover:scale-110 inline-block"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-zinc-500 hover:text-white transition-colors hover:scale-110 inline-block"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator (animated) -->
+        <div class="absolute bottom-10 left-1/2 hidden md:flex flex-col items-center gap-2 text-xs tracking-widest text-zinc-500 scroll-indicator">
+            <div class="w-px h-12 bg-gradient-to-b from-transparent via-zinc-500 to-transparent"></div>
+            SCROLL
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="py-24 bg-zinc-900">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-12 gap-16 items-center">
+                <div class="md:col-span-5 fade-up">
+                    <div class="sticky top-28">
+                        <span class="uppercase tracking-widest text-indigo-400 text-sm font-medium">Who I am</span>
+                        <h2 class="text-5xl font-bold mt-3 leading-none">Tech guy na maaasahan mo sa lahat ng IT needs mo</h2>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-7 space-y-8 text-lg text-zinc-300 fade-up">
+                    <p>
+                        Hello! Ako si Joshua D. Montanez, 25 years old mula sa Caloocan City. 
+                        Mahilig ako sa technology at mahusay sa pagtulong sa mga tao na maayos ang kanilang computer, laptop, network, at iba pang hardware/software issues.
+                    </p>
+                    <p>
+                        May malalim akong kaalaman sa <strong>hardware</strong> (assembly, troubleshooting, repair), 
+                        <strong>technical support</strong> (customer service style), at <strong>IT administration</strong> 
+                        (user management, system maintenance, basic networking).
+                    </p>
+                    <p class="text-emerald-400 font-medium animate-pulse">
+                        "Fast, reliable, at madaling kausap — yan ang promise ko sa bawat client"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="py-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 fade-up">
+                <span class="uppercase text-indigo-400 text-sm tracking-widest font-medium">What I bring to the table</span>
+                <h2 class="text-5xl font-bold mt-3">My Skills & Expertise</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Skill 1 -->
+                <div class="skill-card bg-zinc-900 border border-zinc-800 p-8 rounded-3xl fade-up">
+                    <div class="skill-icon w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-4xl mb-6">🛠️</div>
+                    <h3 class="text-2xl font-semibold mb-2">Hardware Specialist</h3>
+                    <p class="text-zinc-400">Computer assembly, troubleshooting, repair ng motherboard, RAM, GPU, PSU, at peripherals. Expert din sa laptop hardware.</p>
+                    <div class="h-2 bg-zinc-800 rounded-full mt-8 overflow-hidden">
+                        <div class="h-full w-[95%] bg-gradient-to-r from-indigo-500 to-violet-500"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 2 -->
+                <div class="skill-card bg-zinc-900 border border-zinc-800 p-8 rounded-3xl fade-up stagger-1">
+                    <div class="skill-icon w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-4xl mb-6">📞</div>
+                    <h3 class="text-2xl font-semibold mb-2">Tech Support</h3>
+                    <p class="text-zinc-400">Remote & on-site support. Windows troubleshooting, software installation, virus removal, at customer service.</p>
+                    <div class="h-2 bg-zinc-800 rounded-full mt-8 overflow-hidden">
+                        <div class="h-full w-[90%] bg-gradient-to-r from-emerald-500 to-teal-500"></div>
+                    </div>
+                </div>
+                
+                <!-- Skill 3 -->
+                <div class="skill-card bg-zinc-900 border border-zinc-800 p-8 rounded-3xl fade-up stagger-2">
+                    <div class="skill-icon w-16 h-16 bg-amber-500/10 rounded-2xl flex items-center justify-center text-4xl mb-6">🖥️</div>
+                    <h3 class="text-2xl font-semibold mb-2">System Administrator</h3>
+                    <p class="text-zinc-400">User & group management, Windows Server basics, backup & recovery, basic Active Directory, at network configuration.</p>
+                    <div class="h-2 bg-zinc-800 rounded-full mt-8 overflow-hidden">
+                        <div class="h-full w-[85%] bg-gradient-to-r from-amber-500 to-orange-500"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="bg-zinc-900/70 border border-zinc-800 rounded-3xl py-6 hover:scale-105 transition-transform hover:border-indigo-500 fade-up">
+                    <i class="fas fa-network-wired text-4xl text-indigo-400 mb-3"></i>
+                    <p class="font-medium">Network Setup</p>
+                </div>
+                <div class="bg-zinc-900/70 border border-zinc-800 rounded-3xl py-6 hover:scale-105 transition-transform hover:border-indigo-500 fade-up stagger-1">
+                    <i class="fas fa-shield-alt text-4xl text-indigo-400 mb-3"></i>
+                    <p class="font-medium">Basic Cybersecurity</p>
+                </div>
+                <div class="bg-zinc-900/70 border border-zinc-800 rounded-3xl py-6 hover:scale-105 transition-transform hover:border-indigo-500 fade-up stagger-2">
+                    <i class="fas fa-laptop-code text-4xl text-indigo-400 mb-3"></i>
+                    <p class="font-medium">Software Installation</p>
+                </div>
+                <div class="bg-zinc-900/70 border border-zinc-800 rounded-3xl py-6 hover:scale-105 transition-transform hover:border-indigo-500 fade-up stagger-3">
+                    <i class="fas fa-headset text-4xl text-indigo-400 mb-3"></i>
+                    <p class="font-medium">24/7 Ready Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="py-24 bg-zinc-900">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 fade-up">
+                <span class="uppercase text-indigo-400 text-sm tracking-widest font-medium">My Roles</span>
+                <h2 class="text-5xl font-bold mt-3">Experience & Roles</h2>
+            </div>
+            
+            <div class="space-y-12 max-w-4xl mx-auto">
+                <!-- Role 1 -->
+                <div class="flex gap-8 fade-up">
+                    <div class="w-28 text-right shrink-0">
+                        <div class="text-emerald-400 font-mono text-sm">2026 — Present</div>
+                    </div>
+                    <div class="flex-1 border-l-2 border-indigo-500 pl-8 hover:border-l-4 transition-all hover:border-indigo-400">
+                        <h3 class="text-2xl font-semibold">Tech Support & Hardware Specialist</h3>
+                        <p class="text-zinc-400 mt-1">Freelance / Self-Employed • Caloocan City</p>
+                        <ul class="mt-6 space-y-4 text-zinc-300">
+                            <li class="flex gap-3"><span class="text-indigo-400 mt-1">•</span> On-site at remote technical support para sa homes at small businesses</li>
+                            <li class="flex gap-3"><span class="text-indigo-400 mt-1">•</span> Computer & laptop repair, upgrading, at custom PC building</li>
+                            <li class="flex gap-3"><span class="text-indigo-400 mt-1">•</span> Customer service — explaining solutions in simple Tagalog/English</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Role 2 -->
+                <div class="flex gap-8 fade-up stagger-1">
+                    <div class="w-28 text-right shrink-0">
+                        <div class="text-emerald-400 font-mono text-sm">2025 — 2026</div>
+                    </div>
+                    <div class="flex-1 border-l-2 border-indigo-500 pl-8 hover:border-l-4 transition-all hover:border-indigo-400">
+                        <h3 class="text-2xl font-semibold">IT Administrator Assistant</h3>
+                        <p class="text-zinc-400 mt-1">Local Computer Shop / Internship • Caloocan City</p>
+                        <ul class="mt-6 space-y-4 text-zinc-300">
+                            <li class="flex gap-3"><span class="text-indigo-400 mt-1">•</span> System maintenance at user account management</li>
+                            <li class="flex gap-3"><span class="text-indigo-400 mt-1">•</span> Network troubleshooting at Wi-Fi setup</li>
+                            <li class="flex gap-3"><span class="text-indigo-400 mt-1">•</span> Daily backup at basic server monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16">
+                <div class="fade-up">
+                    <h2 class="text-5xl font-bold">Let's work together!</h2>
+                    <p class="mt-6 text-xl text-zinc-400">
+                        May tech problem ka? Kailangan mo ng IT support, hardware repair, o system admin help? 
+                        Message mo lang ako — mabilis akong sumagot!
+                    </p>
+                    
+                    <div class="mt-12 space-y-8">
+                        <div class="flex items-center gap-6 hover:translate-x-2 transition-transform">
+                            <div class="w-12 h-12 bg-zinc-800 rounded-2xl flex items-center justify-center text-2xl hover:bg-indigo-600 transition-colors">📍</div>
+                            <div>
+                                <p class="font-medium">Caloocan City Brgy 73, Philippines</p>
+                                <p class="text-sm text-zinc-500">Open for on-site & remote work</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6 hover:translate-x-2 transition-transform">
+                            <div class="w-12 h-12 bg-zinc-800 rounded-2xl flex items-center justify-center text-2xl hover:bg-indigo-600 transition-colors">📧</div>
+                            <div>
+                                <p class="font-medium">montanezjoshua39@gmail.com</p>
+                                <p class="text-sm text-zinc-500">(for need some details and services)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6 hover:translate-x-2 transition-transform">
+                            <div class="w-12 h-12 bg-zinc-800 rounded-2xl flex items-center justify-center text-2xl hover:bg-indigo-600 transition-colors">📱</div>
+                            <div>
+                                <p class="font-medium">+63 967 518 0005</p>
+                                <p class="text-sm text-zinc-500">Viber / WhatsApp / Call</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <form id="contact-form" class="space-y-6 bg-zinc-900 border border-zinc-800 p-10 rounded-3xl fade-up stagger-1 hover:border-indigo-500 transition-colors">
+                    <div>
+                        <label class="block text-sm text-zinc-400 mb-2">Full Name</label>
+                        <input type="text" id="name" required 
+                               class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-indigo-500 transition-all">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm text-zinc-400 mb-2">Email Address</label>
+                        <input type="email" id="email" required 
+                               class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-indigo-500 transition-all">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm text-zinc-400 mb-2">Message</label>
+                        <textarea id="message" rows="6" required
+                                  class="w-full bg-zinc-950 border border-zinc-700 rounded-3xl px-6 py-4 focus:outline-none focus:border-indigo-500 transition-all"></textarea>
+                    </div>
+                    
+                    <button type="submit"
+                            class="w-full bg-white text-zinc-950 font-semibold py-5 rounded-3xl hover:bg-indigo-600 hover:text-white transition-all transform hover:scale-105 active:scale-95">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-12 border-t border-zinc-900">
+        <div class="max-w-6xl mx-auto px-6 text-center text-zinc-500 text-sm">
+            <p>© 2026 Joshua D. Montanez • Made with ❤️ in Caloocan City</p>
+            <p class="mt-2">This portfolio is fully customizable — just edit the texts and images!</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script already loaded via CDN
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('hamburger');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.replace('fa-bars', 'fa-times');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.replace('fa-times', 'fa-bars');
+            }
+        }
+        
+        // Contact form
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            
+            alert(`Thank you, ${name || 'Joshua'}! Message mo na-receive ko. (Demo lang 'to — real email system mo na lang i-connect later)`);
+            
+            // Reset form
+            this.reset();
+        });
+        
+        // Close mobile menu when clicking a link (already handled in HTML onclick)
+        
+        // Keyboard shortcut: Press "/" to focus contact form
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && document.getElementById('contact').getBoundingClientRect().top < 500) {
+                document.getElementById('name').focus();
+                e.preventDefault();
+            }
+        });
+        
+        // Intersection Observer for fade-up animations
+        const fadeElements = document.querySelectorAll('.fade-up');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optional: keep observing if you want to re-trigger, but we'll unobserve after
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        fadeElements.forEach(el => observer.observe(el));
+        
+        // Also observe skill cards individually (they already have fade-up class)
+        
+        console.log('%c✅ Portfolio ni Joshua D. Montanez with animations loaded!', 'color: #6366f1; font-size: 14px; font-weight: bold');
+    </script>
+</body>
+</html>
+
